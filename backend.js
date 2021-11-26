@@ -10,6 +10,7 @@ cspOptions = {
     useDefaults: true,
     directives: {
         defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
         connectSrc: ["'self'"]
     }
 }
@@ -37,6 +38,14 @@ app.get('/sound/:id', (req, res) => {
 
     const readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
+})
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/index.html'));
+})
+
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile(path.join(__dirname, '/favicon.ico'));
 })
 
 // Starting the app on port 8081

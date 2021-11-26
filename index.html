@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function playMusic(fileName) {
+            let music = new Audio("http://localhost:8081/sound/" + fileName);
+            music.play();
+        }
+
+        document.addEventListener("DOMContentLoaded", api);
+
+        function api() {
+            let url = `http://localhost:8081/sound-list`;
+
+            fetch(url).then(async (response) => {
+                let data = await response.json();
+
+                const titleTest = data['a_kadoc'].file_name;
+                playMusic(titleTest);
+            }).catch(err => console.log("Erreur: " + err));
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <nav class="navbar navbar-expand-md bg-info navbar-dark mb-3">
+            <a class="navbar-brand" href="index.html">
+                <img src="favicon.ico" width="40" height="40" alt="Logo Kaamelott"/>
+                Soundboard Kaamelott
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarContent" class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="a_propos.html">À propos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="jumbotron bg-dark text-white">
+        <h1>Bienvenue sur la soundboard de la série Kaamelott!</h1>
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        <p>Veuillez choisir les mp3 que vous souhaitez jouer.</p>
+        <input type="file" name="client-file" id="get-files" multiple/>
+    </div>
+
+    <section>
+        <div id="list_of_boxes"></div>
+        <div id="test_api"></div>
+    </section>
+</div>
+</body>
+</html>
