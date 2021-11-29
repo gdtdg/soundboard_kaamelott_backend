@@ -2,40 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <script>
-        function playMusic(fileName) {
-            let music = new Audio("http://localhost:8081/sound/" + fileName);
-            music.play();
-        }
-
-        document.addEventListener("DOMContentLoaded", api);
-
-        function api() {
-            let url = `http://localhost:8081/sound-list`;
-
-            fetch(url).then(async (response) => {
-                let data = await response.json();
-
-                const titleTest = data['a_kadoc'].file_name;
-                playMusic(titleTest);
-            }).catch(err => console.log("Erreur: " + err));
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="icon" href="k_ico.png" />
+    <title>Soundboard Kaamelott</title>
 </head>
+
 <body>
 <div class="container">
     <header>
-        <nav class="navbar navbar-expand-md bg-info navbar-dark mb-3">
+        <nav class="navbar navbar-expand-md navbar-dark mb-3">
             <a class="navbar-brand" href="index.html">
-                <img src="favicon.ico" width="40" height="40" alt="Logo Kaamelott"/>
+                <img src="k.png" width="40" height="40" alt="K letter"/>
                 Soundboard Kaamelott
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
@@ -54,19 +34,53 @@
         </nav>
     </header>
 
-    <div class="jumbotron bg-dark text-white">
+    <div class="jumbotron text-white">
         <h1>Bienvenue sur la soundboard de la série Kaamelott!</h1>
-    </div>
-
-    <div class="alert alert-success" role="alert">
-        <p>Veuillez choisir les mp3 que vous souhaitez jouer.</p>
-        <input type="file" name="client-file" id="get-files" multiple/>
     </div>
 
     <section>
         <div id="list_of_boxes"></div>
-        <div id="test_api"></div>
     </section>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", api);
+
+    function api() {
+        let url = `http://localhost:8081/sound-list`;
+
+        fetch(url).then(async (response) => {
+            let data = await response.json();
+            console.log(data);
+            const titleTest = data['a_kadoc'].file_name;
+            console.log(titleTest);
+            //playMusic(titleTest);
+
+            for (let file in data) {
+                console.log(data[file].path);
+                const newCard = `
+                               <input type="button"
+                               class="bouton" value="${data[file].quote}"
+                               title="${data[file].author} - Livre ${data[file].season}, épisode ${data[file].episode_number} - ${data[file].episode_name}"
+                               onclick="playMusic('${data[file].file_name}')" />
+                               `
+                document.getElementById('list_of_boxes').innerHTML += newCard;
+            }
+        }).catch(err => console.log("Erreur: " + err));
+    }
+
+    function playMusic(fileName) {
+        let music = new Audio("http://localhost:8081/sounds/" + fileName);
+        console.log(music);
+        music.play();
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 </body>
 </html>

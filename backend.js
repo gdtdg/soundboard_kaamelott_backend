@@ -26,7 +26,7 @@ app.get('/sound-list', (req, res) => {
     res.send(soundList);
 })
 
-app.get('/sound/:id', (req, res) => {
+app.get('/sounds/:id', (req, res) => {
     // First read existing users.
     const filePath = path.join(__dirname, soundList[req.params.id].path);
     const stat = fs.statSync(filePath);

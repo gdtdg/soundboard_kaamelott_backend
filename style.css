@@ -1,0 +1,57 @@
+body
+{
+	color: black;
+	background-color: rgba(79, 26, 4, 31);
+}
+.navbar
+{
+	background-color: rgba(129,44,7,51);
+}
+.jumbotron
+{
+	background-color: rgba(151,82,53,59);
+}
+.card
+{
+	background-color: rgba(181,118,27,71);
+}
+.bouton
+{
+	background-color: rgba(181,118,27,71);
+	font-weight: bolder;
+	border-radius: 5px;
+	padding: 5px;
+	width: 24%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-color: rgba(181,118,27,71);
+	margin-bottom: 5px;
+}
+.bouton:hover
+{
+	filter: brightness(.9);
+}
+
+#list_of_boxes
+{
+	text-align: center;
+}
+.file_name
+{
+	font-weight: bolder;
+}
+
+@media screen and (max-width:766px) {
+	.jumbotron {
+		display: none;
+	}
+	#list_of_boxes{
+		display: flex;
+		flex-direction: column;
+	}
+	.bouton
+	{
+		width: 100%;
+	}
+}
+
