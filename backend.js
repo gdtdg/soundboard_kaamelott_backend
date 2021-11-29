@@ -2,20 +2,25 @@ const express = require('express');
 const path = require('path');
 const fs = require("fs");
 const cors = require('cors');
-const csp = require('helmet-csp')
+const csp = require('helmet-csp');
 
 // Definition of application options
 const app = express();
 cspOptions = {
     useDefaults: true,
     directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        connectSrc: ["'self'"]
+        defaultSrc: ["*"],
+        scriptSrc: ["*", "'unsafe-inline'"],
+        styleSrc: ["*"],
+        connectSrc: ["*"]
     }
 }
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 app.use(csp(cspOptions))
+
+app.use(express.static(__dirname + '/'));
 
 // Loading all the sounds data
 const soundList = require('./sounds/sounds.json');
@@ -41,6 +46,7 @@ app.get('/sounds/:id', (req, res) => {
 })
 
 app.get('/', (req, res) => {
+    res.type('html');
     res.sendFile(path.join(__dirname, '/index.html'));
 })
 
