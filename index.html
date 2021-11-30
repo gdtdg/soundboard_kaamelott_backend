@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css"/>
-    <link rel="icon" href="k_ico.png" />
+    <link rel="icon" href="k_ico.png"/>
     <title>Soundboard Kaamelott</title>
 </head>
 
@@ -42,7 +42,8 @@
         <form>
             <div class="form-box">
                 <div class="form group">
-                    <input type="text" class="form-control text-center" name="recherche" id ="recherche" placeholder="Rechercher par nom de personnages, d'épisodes, ou encore numéro de saisons/épisodes!" />
+                    <input type="text" class="form-control text-center" name="recherche" id="recherche"
+                           placeholder="Rechercher par nom de personnages, d'épisodes, ou encore numéro de saisons/épisodes!"/>
                 </div>
             </div>
         </form>
@@ -51,77 +52,19 @@
 
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", api);
+<script src="script.js"></script>
 
-    function api() {
-        let url = `http://localhost:8081/sound-list`;
-        fetch(url).then(async (response) => {
-            let data = await response.json();
-            console.log(data);
-            for (let file in data) {
-                const newButton = `
-                               <button type="button"
-                               class="bouton" value="${data[file].quote}"
-                               title="${data[file].author} - Livre ${data[file].season}, épisode ${data[file].episode_number} - ${data[file].episode_name}"
-                               onclick="playMusic('${data[file].file_name}')">${data[file].quote} <img src="./portraits/${data[file].author}.jpg"/></button>
-                               `
-                document.getElementById('result').innerHTML += newButton;
-            }
-        }).catch(err => console.log("Erreur: " + err));
-    }
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
 
-    function playMusic(fileName) {
-        let music = new Audio("http://localhost:8081/sounds/" + fileName);
-        console.log(music);
-        music.play();
-    }
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
 
-    document.getElementById("recherche").addEventListener("input",recherche);
-
-    function recherche(){
-        if (this.value.length ===0){
-            document.getElementById('result').innerHTML = "";
-            api();
-        } else {
-            let valueFormated = this.value.charAt(0).toUpperCase() + this.value.slice(1);
-            console.log(valueFormated);
-            document.getElementById('result').innerHTML = "";
-            let url = `http://localhost:8081/sound-list`;
-            fetch(url).then(async (response) => {
-                let data = await response.json();
-                console.log(data);
-                for (let file in data) {
-                    let tempFileName = data[file].file_name.replace(/_/g," ");
-                    if (tempFileName.includes(this.value)||
-                        data[file].quote.includes(valueFormated)||
-                        data[file].author.includes(valueFormated)||
-                        data[file].season.includes(valueFormated)||
-                        data[file].episode_number.includes(valueFormated)||
-                        data[file].episode_name.includes(valueFormated)||
-                        data[file].episode_name.includes(this.value)){
-                        console.log(this.value);
-                        console.log(file)
-                        const newButton = `
-                               <button type="button"
-                               class="bouton" value="${data[file].quote}"
-                               title="${data[file].author} - Livre ${data[file].season}, épisode ${data[file].episode_number} - ${data[file].episode_name}"
-                               onclick="playMusic('${data[file].file_name}')">${data[file].quote} <img src="./portraits/${data[file].author}.jpg"/></button>
-                               `
-                        document.getElementById('result').innerHTML += newButton;
-                    }
-                }
-            }).catch(err => console.log("Erreur: " + err));
-        }
-    }
-
-</script>
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
