@@ -39,8 +39,16 @@
     </div>
 
     <section>
-        <div id="list_of_boxes"></div>
+        <form>
+            <div class="form-box">
+                <div class="form group">
+                    <input type="text" class="form-control text-center" name="recherche" id ="recherche" placeholder="Rechercher par nom de personnages, d'épisodes, ou encore numéro de saisons/épisodes!" />
+                </div>
+            </div>
+        </form>
+        <div id="result"></div>
     </section>
+
 </div>
 
 <script>
@@ -48,23 +56,17 @@
 
     function api() {
         let url = `http://localhost:8081/sound-list`;
-
         fetch(url).then(async (response) => {
             let data = await response.json();
             console.log(data);
-            const titleTest = data['a_kadoc'].file_name;
-            console.log(titleTest);
-            //playMusic(titleTest);
-
             for (let file in data) {
-                console.log(data[file].path);
-                const newCard = `
-                               <input type="button"
+                const newButton = `
+                               <button type="button"
                                class="bouton" value="${data[file].quote}"
                                title="${data[file].author} - Livre ${data[file].season}, épisode ${data[file].episode_number} - ${data[file].episode_name}"
-                               onclick="playMusic('${data[file].file_name}')" />
+                               onclick="playMusic('${data[file].file_name}')">${data[file].quote} <img src="./portraits/${data[file].author}.jpg"/></button>
                                `
-                document.getElementById('list_of_boxes').innerHTML += newCard;
+                document.getElementById('result').innerHTML += newButton;
             }
         }).catch(err => console.log("Erreur: " + err));
     }
@@ -74,6 +76,45 @@
         console.log(music);
         music.play();
     }
+
+    document.getElementById("recherche").addEventListener("input",recherche);
+
+    function recherche(){
+        if (this.value.length ===0){
+            document.getElementById('result').innerHTML = "";
+            api();
+        } else {
+            let valueFormated = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+            console.log(valueFormated);
+            document.getElementById('result').innerHTML = "";
+            let url = `http://localhost:8081/sound-list`;
+            fetch(url).then(async (response) => {
+                let data = await response.json();
+                console.log(data);
+                for (let file in data) {
+                    let tempFileName = data[file].file_name.replace(/_/g," ");
+                    if (tempFileName.includes(this.value)||
+                        data[file].quote.includes(valueFormated)||
+                        data[file].author.includes(valueFormated)||
+                        data[file].season.includes(valueFormated)||
+                        data[file].episode_number.includes(valueFormated)||
+                        data[file].episode_name.includes(valueFormated)||
+                        data[file].episode_name.includes(this.value)){
+                        console.log(this.value);
+                        console.log(file)
+                        const newButton = `
+                               <button type="button"
+                               class="bouton" value="${data[file].quote}"
+                               title="${data[file].author} - Livre ${data[file].season}, épisode ${data[file].episode_number} - ${data[file].episode_name}"
+                               onclick="playMusic('${data[file].file_name}')">${data[file].quote} <img src="./portraits/${data[file].author}.jpg"/></button>
+                               `
+                        document.getElementById('result').innerHTML += newButton;
+                    }
+                }
+            }).catch(err => console.log("Erreur: " + err));
+        }
+    }
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

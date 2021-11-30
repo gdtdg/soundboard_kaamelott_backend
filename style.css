@@ -20,8 +20,8 @@ body
 	background-color: rgba(181,118,27,71);
 	font-weight: bolder;
 	border-radius: 5px;
-	padding: 5px;
 	width: 24%;
+	max-height: 38px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	border-color: rgba(181,118,27,71);
@@ -32,13 +32,17 @@ body
 	filter: brightness(.9);
 }
 
-#list_of_boxes
+#result
 {
 	text-align: center;
 }
 .file_name
 {
 	font-weight: bolder;
+}
+.form-box
+{
+	margin: 10px;
 }
 
 @media screen and (max-width:766px) {
