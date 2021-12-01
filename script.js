@@ -3,7 +3,7 @@ function createButton(soundList, file) {
                         value="${soundList[file].quote}" 
                         title="${soundList[file].author} - Livre ${soundList[file].season}, épisode ${soundList[file].episode_number} - ${soundList[file].episode_name}" 
                         onclick="playMusic('${soundList[file].file_name}')">${soundList[file].quote} 
-                        <img src="./portraits/${soundList[file].author}.jpg" alt="portrait of ${soundList[file].author}" /></button>`;
+                        <img class="right_float" src="./portraits/${soundList[file].author}.jpg" alt="portrait of ${soundList[file].author}" /></button>`;
 }
 
 function initializeSoundList() {

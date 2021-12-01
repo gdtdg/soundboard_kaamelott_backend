@@ -21,11 +21,12 @@ body
 	font-weight: bolder;
 	border-radius: 5px;
 	width: 24%;
-	max-height: 38px;
+	height: 40px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	border-color: rgba(181,118,27,71);
 	margin-bottom: 5px;
+	position: relative;
 }
 .bouton:hover
 {
@@ -43,6 +44,12 @@ body
 .form-box
 {
 	margin: 10px;
+}
+
+.right_float {
+	position: absolute;
+	right: 2%;
+	top: 4%;
 }
 
 @media screen and (max-width:766px) {
