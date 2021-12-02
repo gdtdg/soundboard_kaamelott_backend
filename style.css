@@ -18,7 +18,7 @@ body
 }
 .card
 {
-	background-color: rgba(181,118,27,71);
+	background-color: rgba(244,218,181,96);
 }
 .bouton
 {
@@ -33,7 +33,6 @@ body
 	border-color: rgba(244,218,181,96);
 	margin-bottom: 7px;
 	margin-right: 7px;
-
 	position: relative;
 }
 .bouton:hover
@@ -45,13 +44,9 @@ body
 {
 	text-align: center;
 }
-.file_name
-{
-	font-weight: bolder;
-}
 .form-box
 {
-	margin: 10px;
+	margin: 32px;
 }
 
 .right_float {
@@ -63,10 +58,6 @@ body
 @media screen and (max-width:766px) {
 	.jumbotron {
 		display: none;
-	}
-	#list_of_boxes{
-		display: flex;
-		flex-direction: column;
 	}
 	.bouton
 	{
