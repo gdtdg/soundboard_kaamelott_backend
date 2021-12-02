@@ -9,11 +9,11 @@ function createButton(soundList, file) {
 function initializeSoundList() {
     let url = `http://localhost:8081/sound-list`;
     fetch(url).then(async (response) => {
-        soundList = await response.json();
-        console.log(soundList);
+        globalState.soundList = await response.json();
+        console.log(globalState.soundList);
         let allButtons = [];
-        for (let file in soundList) {
-            const newButton = createButton(soundList, file);
+        for (let file in globalState.soundList) {
+            const newButton = createButton(globalState.soundList, file);
             allButtons += newButton;
         }
         document.getElementById('result').innerHTML = allButtons;
@@ -22,8 +22,11 @@ function initializeSoundList() {
 }
 
 function playMusic(fileName) {
+    if (globalState.media && !globalState.media.ended) {
+        globalState.media.volume = 0;
+    }
     let music = new Audio("http://localhost:8081/sounds/" + fileName);
-    console.log(music);
+    globalState.media = music;
     music.play();
 }
 
@@ -44,18 +47,18 @@ function search() {
         console.log(valueFormatted);
         document.getElementById('result').innerHTML = "";
         let allButtons = [];
-        for (let file in soundList) {
+        for (let file in globalState.soundList) {
             let tempFileName = removeUnderscoreFromString(file);
             if (tempFileName.includes(this.value) ||
-                soundList[file].quote.includes(valueFormatted) ||
-                soundList[file].author.includes(valueFormatted) ||
-                soundList[file].season.includes(valueFormatted) ||
-                soundList[file].episode_number.includes(valueFormatted) ||
-                soundList[file].episode_name.includes(valueFormatted) ||
-                soundList[file].episode_name.includes(this.value)) {
+                globalState.soundList[file].quote.includes(valueFormatted) ||
+                globalState.soundList[file].author.includes(valueFormatted) ||
+                globalState.soundList[file].season.includes(valueFormatted) ||
+                globalState.soundList[file].episode_number.includes(valueFormatted) ||
+                globalState.soundList[file].episode_name.includes(valueFormatted) ||
+                globalState.soundList[file].episode_name.includes(this.value)) {
                 console.log(this.value);
                 console.log(file);
-                const newButton = createButton(soundList, file);
+                const newButton = createButton(globalState.soundList, file);
                 allButtons += newButton;
             }
         }
@@ -63,7 +66,10 @@ function search() {
     }
 }
 
-let soundList;
+const globalState = {
+    media: undefined,
+    soundList: undefined
+};
 
 document.addEventListener("DOMContentLoaded", initializeSoundList);
 
