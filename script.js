@@ -11,10 +11,13 @@ function initializeSoundList() {
     fetch(url).then(async (response) => {
         soundList = await response.json();
         console.log(soundList);
+        let allButtons = [];
         for (let file in soundList) {
             const newButton = createButton(soundList, file);
-            document.getElementById('result').innerHTML += newButton;
+            allButtons += newButton;
         }
+        document.getElementById('result').innerHTML = allButtons;
+
     }).catch(err => console.log("Erreur: " + err));
 }
 
@@ -40,6 +43,7 @@ function search() {
         let valueFormatted = firstLetterUpperCase(this.value);
         console.log(valueFormatted);
         document.getElementById('result').innerHTML = "";
+        let allButtons = [];
         for (let file in soundList) {
             let tempFileName = removeUnderscoreFromString(file);
             if (tempFileName.includes(this.value) ||
@@ -52,9 +56,10 @@ function search() {
                 console.log(this.value);
                 console.log(file);
                 const newButton = createButton(soundList, file);
-                document.getElementById('result').innerHTML += newButton;
+                allButtons += newButton;
             }
         }
+        document.getElementById('result').innerHTML += allButtons;
     }
 }
 
